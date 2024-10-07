@@ -1,9 +1,4 @@
 <?php
-session_start();
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    header("Location: login.php");
-    exit();
-}
 include 'navbar.php';
 ?>
 
@@ -44,7 +39,7 @@ include 'navbar.php';
         </a></li>
         <li><a href="leaderboard.php">
         <div class="feature-card statics">
-            <h3>Leaderboard and Statics</h3>
+            <h3>Leaderboard</h3>
             <p>Track your performance and analyze stats to improve your gameplay.</p>
         </div>
         </a></li>

@@ -1,5 +1,11 @@
 <?php
 session_start(); 
+
+if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+    header("Location: dashboard.php");
+    exit(); // Always call exit after a header redirect
+}
+
 require_once '../app/controllers/AuthController.php';
 $authController = new AuthController($pdo);
 $authController->login();
@@ -7,6 +13,7 @@ $username = '';
 if (isset($_COOKIE['username'])) {
     $username = $_COOKIE['username'];
 }
+
 ?>
 
 <!DOCTYPE html>
