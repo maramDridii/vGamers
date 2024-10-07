@@ -3,14 +3,16 @@
     <div class="logo">
         <a href="dashboard.php"><img src="images/logo.png" alt="Dashboard Logo" style="height: 120px; margin-top:40px"/></a>
     </div>
-        <div class="nav-items">
+    <div class="nav-items">
         <ul class="centered">
-        <li><a href="tournaments.php"><i class="fas fa-trophy"></i> Tournaments</a></li>
-        <li><a href="teams.php"><i class="fas fa-users"></i> Teams</a></li>
-        <li><a href="leaderboard.php"><i class="fas fa-chart-bar"></i>eaderboard</a></li>
+            <li><a href="tournaments.php"><i class="fas fa-trophy"></i> Tournaments</a></li>
+            <li><a href="teams.php"><i class="fas fa-users"></i> Teams</a></li>
+            <li><a href="leaderboard.php"><i class="fas fa-chart-bar"></i> Leaderboard</a></li>
         </ul>
         <ul class="right">
-        <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-    </ul>
+            <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
+                <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            <?php endif; ?>
+        </ul>
     </div>
 </nav>
