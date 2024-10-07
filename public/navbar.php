@@ -12,6 +12,8 @@
         <ul class="right">
             <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
                 <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            <?php else: ?>
+                <li><a href="login.php"><i class="fas fa-sign-in-alt"></i> Login</a></li>
             <?php endif; ?>
         </ul>
     </div>
