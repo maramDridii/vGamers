@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <link rel="stylesheet" href="css/dashboard.css">
 <nav>
     <div class="logo">
