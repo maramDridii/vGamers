@@ -4,16 +4,19 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 require_once '../config/database.php';
 
+// Check if user is logged in
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     header("Location: login.php");
     exit();
 }
 
+// Fetch the user's team
 $query = "SELECT * FROM teams WHERE user_id = :user_id"; 
 $stmt = $pdo->prepare($query);
 $stmt->execute(['user_id' => $_SESSION['user_id']]);
 $team = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// Fetch all tournaments
 $tournamentsQuery = "SELECT id, name FROM tournaments";
 $tournamentsStmt = $pdo->query($tournamentsQuery);
 $tournaments = $tournamentsStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -33,10 +36,12 @@ $tournaments = $tournamentsStmt->fetchAll(PDO::FETCH_ASSOC);
     
     <main>
         <h1>Manage Your Team</h1>
-        
+
+        <!-- If team exists, allow user to edit -->
         <?php if ($team): ?>
             <form method="POST" action="../app/controllers/teamController.php?action=edit">
                 <input type="hidden" name="id" value="<?php echo htmlspecialchars($team['id']); ?>">
+                
                 <label for="team_name">Team Name:</label>
                 <input type="text" id="team_name" name="team_name" value="<?php echo htmlspecialchars($team['name']); ?>" required>
 
@@ -46,11 +51,13 @@ $tournaments = $tournamentsStmt->fetchAll(PDO::FETCH_ASSOC);
                 <input type="submit" value="Update Team">
             </form>
 
+            <!-- Delete team -->
             <form method="POST" action="../app/controllers/teamController.php?action=delete" style="margin-top: 20px;">
                 <input type="hidden" name="id" value="<?php echo htmlspecialchars($team['id']); ?>" />
                 <button class="delete" type="submit" onclick="return confirm('Are you sure you want to delete this team?');">Delete Team</button>
             </form>
 
+            <!-- Manage Logo and Images -->
             <h2>Manage Images</h2>
             <form method="POST" action="../app/controllers/teamController.php?action=uploadLogo" enctype="multipart/form-data">
                 <label for="logo">Change Logo:</label>
@@ -66,6 +73,7 @@ $tournaments = $tournamentsStmt->fetchAll(PDO::FETCH_ASSOC);
                 <input type="submit" value="Upload Images">
             </form>
 
+            <!-- Display current logo -->
             <h3>Current Logo</h3>
             <?php if (!empty($team['logo'])): ?>
                 <img src="uploads/<?php echo htmlspecialchars($team['logo']); ?>" alt="<?php echo htmlspecialchars($team['name']); ?>" width="100" />
@@ -73,6 +81,7 @@ $tournaments = $tournamentsStmt->fetchAll(PDO::FETCH_ASSOC);
                 <p>No logo available.</p>
             <?php endif; ?>
 
+            <!-- Display current images -->
             <h3>Current Images</h3>
             <div>
                 <?php 
@@ -96,6 +105,7 @@ $tournaments = $tournamentsStmt->fetchAll(PDO::FETCH_ASSOC);
             <p>No team found. Please create a team first.</p>
         <?php endif; ?>
 
+        <!-- Apply for Tournament -->
         <h2>Apply for a Tournament</h2>
         <form method="POST" action="../app/controllers/teamController.php?action=apply">
             <label for="tournament_id">Select Tournament:</label>
@@ -113,10 +123,7 @@ $tournaments = $tournamentsStmt->fetchAll(PDO::FETCH_ASSOC);
 
         <h3>Your Tournament Application</h3>
         <?php if ($team['tournament_id']): ?>
-            <p>
-                You have applied for tournament ID: <?php echo htmlspecialchars($team['tournament_id']); ?> - 
-                Status: <?php echo htmlspecialchars($team['tournament_status']); ?>
-            </p>
+            <p>You have applied for tournament ID: <?php echo htmlspecialchars($team['tournament_id']); ?> - Status: <?php echo htmlspecialchars($team['tournament_status']); ?></p>
         <?php else: ?>
             <p>No applications found.</p>
         <?php endif; ?>

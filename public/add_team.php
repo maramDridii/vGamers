@@ -61,7 +61,8 @@ $stmt->execute([
     'logo' => $logoName, 
     'images' => $imagesJson, 
 ]);
-
+header("Location: manage_team.php");
+    exit();
 }
 ?>
 

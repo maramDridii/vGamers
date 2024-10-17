@@ -16,8 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action'])) {
 
     switch ($action) {
         case 'edit':
-            editTeam($pdo);
-            break;
+            case 'update': 
+                updateTeam($pdo);
+                break;
         case 'register':
             registerTeam($pdo);
             break;
@@ -41,6 +42,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action'])) {
             header("Location: ../../public/manage_team.php");
             exit();
     }
+}
+function updateTeam($pdo) {
+    if (isset($_POST['id'], $_POST['name'], $_POST['members'])) {
+        $team_id = intval($_POST['id']);
+        $name = htmlspecialchars(trim($_POST['name']));
+        $members = htmlspecialchars(trim($_POST['members']));
+
+        if ($team_id > 0 && !empty($name) && !empty($members)) {
+            $query = "UPDATE teams SET name = :name, members = :members WHERE id = :id";
+            $stmt = $pdo->prepare($query);
+
+            try {
+                $stmt->execute([
+                    'name' => $name,
+                    'members' => $members,
+                    'id' => $team_id
+                ]);
+
+                $_SESSION['message'] = 'Team updated successfully.';
+            } catch (PDOException $e) {
+                $_SESSION['message'] = 'Error updating team: ' . $e->getMessage();
+            }
+        } else {
+            $_SESSION['message'] = 'Invalid input data.';
+        }
+    } else {
+        $_SESSION['message'] = 'Required fields are missing.';
+    }
+
+    header("Location: ../../public/manage_team.php");
+    exit();
 }
 
 function applyForTournament($pdo) {
