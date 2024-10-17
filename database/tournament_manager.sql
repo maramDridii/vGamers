@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : jeu. 03 oct. 2024 à 11:12
--- Version du serveur : 10.11.8-MariaDB
--- Version de PHP : 8.3.11
+-- Généré le : jeu. 17 oct. 2024 à 08:43
+-- Version du serveur : 10.11.9-MariaDB
+-- Version de PHP : 8.3.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -68,7 +68,7 @@ CREATE TABLE `teams` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `tournament_id` int(11) DEFAULT NULL,
-  `tournament_status` varchar(20) NOT NULL DEFAULT 'On going',
+  `tournament_status` varchar(20) NOT NULL DEFAULT '"In Progress"',
   `name` varchar(100) NOT NULL,
   `members` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`members`)),
   `status` enum('active','inactive','completed') DEFAULT 'active',
@@ -81,9 +81,8 @@ CREATE TABLE `teams` (
 --
 
 INSERT INTO `teams` (`id`, `user_id`, `tournament_id`, `tournament_status`, `name`, `members`, `status`, `logo`, `images`) VALUES
-(27, 1, 27, 'In Progress', 'Team Alpha', '[\"Alice\", \"Bob\", \"Charlie\"]', 'active', 'team_alpha_logo.png', '[\"image1_alpha.jpg\",\"image3_alpha.jpg\",\"image2_alpha.jpg\"]'),
-(28, 1, 26, '', 'Team Bravo', '[\"David\", \"Eve\"]', 'active', 'team_bravo_logo.png', '[\"image1_bravo.jpg\"]'),
-(37, 2, NULL, '', 'Team Charlie', '[\"Frank\",\"Grace\",\"Heidi\",\"Ivan\"]', 'active', 'logoV.png', '[\"viet1.jpg\",\"viet2.jpg\"]');
+(27, 1, 22, 'Accepted', 'Team Alpha', '[\"Alice\", \"Bob\", \"Charlie\"]', 'active', 'team_alpha_logo.png', '[\"image1_alpha.jpg\",\"image3_alpha.jpg\",\"image2_alpha.jpg\"]'),
+(40, 2, 21, 'In Progress', 'Team Charlie', '[\"Frank\",\"Grace\",\"Heidi\",\"Ivan\"]', 'active', 'logoV.png', '[\"viet1.jpg\",\"viet2.jpg\"]');
 
 -- --------------------------------------------------------
 
@@ -107,12 +106,12 @@ CREATE TABLE `tournaments` (
 INSERT INTO `tournaments` (`id`, `game_id`, `name`, `date`, `status`, `image`) VALUES
 (19, 1, 'Valorant Championship', '2024-11-10 15:00:00', 'upcoming', 't1.png'),
 (20, 1, 'Valorant Battle Royale', '2024-12-05 18:00:00', 'upcoming', 't2.png'),
-(21, 2, 'LOL Summer Finals', '2024-10-20 17:00:00', 'upcoming', 't4.png'),
+(21, 2, 'LOL Summer Finals', '2024-10-20 20:00:00', 'upcoming', 't4.png'),
 (22, 2, 'LOL Spring Tournament', '2024-11-15 16:00:00', 'upcoming', 't4.png'),
 (23, 3, 'Fortnite World Cup', '2024-11-30 14:00:00', 'upcoming', 't5.png'),
 (24, 3, 'Fortnite Charity Tournament', '2024-12-12 19:00:00', 'upcoming', 't5.png'),
 (25, 1, 'Valorant League', '2024-09-25 16:00:00', 'completed', 't3.png'),
-(26, 2, 'LOL Grand Tournament', '2024-09-15 20:00:00', 'completed', '66fe5876235e6.png'),
+(26, 2, 'LOL Grand Tournament', '2025-09-15 20:00:00', 'upcoming', '6703a07614fa4.png'),
 (27, 3, 'Fortnite Pro League', '2024-10-15 15:00:00', 'upcoming', 't5.png'),
 (32, 1, 'Champions Tour 2024 Pacific: Ascension', '2025-05-18 14:00:00', 'upcoming', '66fbfb11743b0.png');
 
@@ -199,7 +198,7 @@ ALTER TABLE `matches`
 -- AUTO_INCREMENT pour la table `teams`
 --
 ALTER TABLE `teams`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT pour la table `tournaments`
